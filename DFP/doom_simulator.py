@@ -5,8 +5,10 @@ from __future__ import print_function
 import sys
 import os
 
-vizdoom_path = '../../../../toolboxes/ViZDoom_2017_03_31'
-sys.path = [os.path.join(vizdoom_path,'bin/python3')] + sys.path
+from pathlib import Path
+
+#vizdoom_path = '../../../../toolboxes/ViZDoom_2017_03_31'
+#sys.path = [os.path.join(vizdoom_path,'bin/python3')] + sys.path
 
 import vizdoom 
 print(vizdoom.__file__)
@@ -26,10 +28,12 @@ class DoomSimulator:
         self.switch_maps = args['switch_maps']
         self.maps = args['maps']
         self.game_args = args['game_args']
+
+        self.data_dir = data = Path("/Users/nimit/Documents/robomaster/DirectFuturePrediction/data")
         
         self._game = vizdoom.DoomGame()
-        self._game.set_vizdoom_path(os.path.join(vizdoom_path,'bin/vizdoom'))
-        self._game.set_doom_game_path(os.path.join(vizdoom_path,'bin/freedoom2.wad'))
+        #self._game.set_vizdoom_path(os.path.join(vizdoom_path,'bin/vizdoom'))
+        #self._game.set_doom_game_path(os.path.join(vizdoom_path,'bin/freedoom2.wad'))
         self._game.load_config(self.config)
         self._game.add_game_args(self.game_args)
         self.curr_map = 0
@@ -65,7 +69,7 @@ class DoomSimulator:
         for nm in range(self.num_meas):
             self.meas_tags.append('meas' + str(nm))
             
-        self.episode_count = 0
+        self.episode_count = int(args['episode_count_start'])
         self.game_initialized = False
         
     def analyze_controls(self, config_file):
@@ -153,4 +157,6 @@ class DoomSimulator:
     def new_episode(self):
         self.next_map()
         self.episode_count += 1
-        self._game.new_episode()
+        episode_dir = self.data_dir / 'ep{}'.format(self.episode_count)
+        episode_dir.mkdir(parents=True, exist_ok=True)
+        self._game.new_episode(str(episode_dir / 'rec.lmp'))

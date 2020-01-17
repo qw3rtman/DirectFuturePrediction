@@ -28,6 +28,7 @@ def main(main_args):
 	simulator_args['switch_maps'] = False
 	#train
 	simulator_args['num_simulators'] = 8
+	simulator_args['episode_count_start'] = int(main_args[1])
 	
 	## Experience
 	# Train experience
