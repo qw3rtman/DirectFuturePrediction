@@ -29,6 +29,7 @@ def main(main_args):
 	#train
 	simulator_args['num_simulators'] = 8
 	simulator_args['episode_count_start'] = int(main_args[1])
+	simulator_args['data_dir'] = main_args[2]
 	
 	## Experience
 	# Train experience

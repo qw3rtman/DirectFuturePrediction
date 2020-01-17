@@ -29,7 +29,7 @@ class DoomSimulator:
         self.maps = args['maps']
         self.game_args = args['game_args']
 
-        self.data_dir = data = Path("/Users/nimit/Documents/robomaster/DirectFuturePrediction/data")
+        self.data_dir = Path(args['data_dir'])#"/Users/nimit/Documents/robomaster/DirectFuturePrediction/data")
         
         self._game = vizdoom.DoomGame()
         #self._game.set_vizdoom_path(os.path.join(vizdoom_path,'bin/vizdoom'))
